@@ -26,16 +26,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </ul>
 
     <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
       <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+        <input class="form-control form-control-navbar" @keyup="searchit" v-model="search" type="search" placeholder="Search" aria-label="Search">
         <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
+          <button class="btn btn-navbar" @click="searchit">
             <i class="fas fa-search"></i>
           </button>
         </div>
       </div>
-    </form>
+    
 
   </nav>
   <!-- /.navbar -->
@@ -59,6 +58,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="info">
           <a href="#" class="d-block">
               {{Auth::user()->name}}
+              <p>{{Auth::user()->type}}</p>
           </a>
         </div>
       </div>
@@ -78,7 +78,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
 
-         
+          @can('isAdmin')
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fa fa-cog green"></i>
@@ -105,7 +105,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </p>
                 </a>
               </li>
-
+              @endcan
               <li class="nav-item">
                 <router-link to="/profile" class="nav-link">
                   <i class="nav-icon fas fa-user orange"></i>
@@ -162,6 +162,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </footer>
 </div>
 <!-- ./wrapper -->
+
+@auth
+<script>
+    window.user = @json(auth()->user())
+</script>
+@endauth
 
 <script src="/js/app.js"></script>
 </body>
